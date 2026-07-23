@@ -6,7 +6,7 @@ const int ECHO_PIN  = 8;
 const int SERVO_PIN = 5;
 const int LED_PIN   = 13;
 
-// إعداد كائن السيرفو
+// إعداد السيرفو
 Servo myServo;
 
 // زوايا السيرفو (يمكنك تعديلها حسب رغبتك)
