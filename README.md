@@ -1,4 +1,5 @@
 # 🚀 Smart Obstacle Detection System
+<img width="750" height="1280" alt="image" src="https://github.com/user-attachments/assets/1afcf483-129d-4282-b28c-f1a4b8268d80" />
 
 ## 📖 Overview
 This project implements an automated, distance-based response system using an Arduino Uno. The system utilizes an HC-SR04 ultrasonic sensor to detect objects within a specific range. Upon successful detection, it triggers a micro servo motor to rotate to a designated angle and illuminates an LED. The project is designed with stability in mind, featuring software-level noise filtering and power-draw mitigation.
