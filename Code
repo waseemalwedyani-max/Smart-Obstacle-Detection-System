@@ -1,0 +1,59 @@
+#include <Servo.h>
+
+// تعريف المنافذ
+const int TRIG_PIN  = 9;
+const int ECHO_PIN  = 8;
+const int SERVO_PIN = 5;
+const int LED_PIN   = 13;
+
+// إعداد كائن السيرفو
+Servo myServo;
+
+// زوايا السيرفو (يمكنك تعديلها حسب رغبتك)
+const int REST_ANGLE   = 90;   // الوضع الأصلي (المنتصف)
+const int ACTION_ANGLE = 180;  // الزاوية عند اكتشاف عائق
+
+void setup() {
+  // ضبط اتجاه المنافذ
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+
+  // ربط السيرفو وضبطه على الوضع الأصلي
+  myServo.attach(SERVO_PIN);
+  myServo.write(REST_ANGLE);
+  
+  digitalWrite(LED_PIN, LOW);
+
+  // تشغيل شاشة المراقبة لمتابعة القراءات
+  Serial.begin(9600);
+}
+
+void loop() {
+  // إرسال نبضة إلتراسونيك
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  // حساب زمن رجوع النبضة وحساب المسافة بالسنتيمتر
+  long duration = pulseIn(ECHO_PIN, HIGH);
+  int distance = duration * 0.034 / 2;
+
+  // طباعة المسافة على Serial Monitor للتأكد
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // الشرط: إذا كان الجسم على بعد 10 سم أو أقل (ومستشعر بشكل صحيح)
+  if (distance > 0 && distance <= 10) {
+    myServo.write(ACTION_ANGLE); // تحريك السيرفو
+    digitalWrite(LED_PIN, HIGH); // إضاءة LED
+  } else {
+    myServo.write(REST_ANGLE);   // العودة للوضع الأصلي
+    digitalWrite(LED_PIN, LOW);  // إطفاء LED
+  }
+
+  delay(100); // تأخير بسيط لاستقرار القراءات
+}
