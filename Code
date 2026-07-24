@@ -6,12 +6,12 @@ const int ECHO_PIN  = 8;
 const int SERVO_PIN = 5;
 const int LED_PIN   = 13;
 
-// إعداد السيرفو
+// إعداد كائن السيرفو
 Servo myServo;
 
-//زوايا السيرفو
+// زوايا السيرفو 
 const int REST_ANGLE   = 90;   // الوضع الأصلي (المنتصف)
-const int ACTION_ANGLE = 160;  // الزاوية عند اكتشاف عائق
+const int ACTION_ANGLE = 160;  // تم تقليل الزاوية لـ 160 لمنع الاختناق الميكانيكي للمحرك
 
 void setup() {
   // ضبط اتجاه المنافذ
@@ -37,8 +37,10 @@ void loop() {
   delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
 
-  // حساب زمن رجوع النبضة وحساب المسافة بالسنتيمتر
-  long duration = pulseIn(ECHO_PIN, HIGH);
+  // حساب زمن رجوع النبضة مع إضافة حد زمني (Timeout) 30 ملي ثانية لمنع تعليق الكود
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  
+  // حساب المسافة بالسنتيمتر
   int distance = duration * 0.034 / 2;
 
   // طباعة المسافة على Serial Monitor للتأكد
@@ -46,8 +48,8 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
 
-  // الشرط: إذا كان الجسم على بعد 10 سم أو أقل (ومستشعر بشكل صحيح)
-  if (distance > 0 && distance <= 10) {
+  // الشرط: تم تعديله ليتجاهل القراءات الوهمية (أقل من أو يساوي 2 سم)
+  if (distance > 2 && distance <= 10) {
     myServo.write(ACTION_ANGLE); // تحريك السيرفو
     digitalWrite(LED_PIN, HIGH); // إضاءة LED
   } else {
