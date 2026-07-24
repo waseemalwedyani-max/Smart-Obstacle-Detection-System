@@ -11,7 +11,7 @@ Servo myServo;
 
 //زوايا السيرفو
 const int REST_ANGLE   = 90;   // الوضع الأصلي (المنتصف)
-const int ACTION_ANGLE = 180;  // الزاوية عند اكتشاف عائق
+const int ACTION_ANGLE = 160;  // الزاوية عند اكتشاف عائق
 
 void setup() {
   // ضبط اتجاه المنافذ
