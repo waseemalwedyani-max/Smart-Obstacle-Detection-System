@@ -9,7 +9,7 @@ const int LED_PIN   = 13;
 // إعداد السيرفو
 Servo myServo;
 
-// زوايا السيرفو (يمكنك تعديلها حسب رغبتك)
+//زوايا السيرفو
 const int REST_ANGLE   = 90;   // الوضع الأصلي (المنتصف)
 const int ACTION_ANGLE = 180;  // الزاوية عند اكتشاف عائق
 
